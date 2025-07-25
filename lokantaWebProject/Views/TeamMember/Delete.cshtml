@@ -1,0 +1,43 @@
+﻿@using lokantaWebProject.Entities
+@model TeamMember
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-6 offset-lg-3">
+    <div class="card border-danger">
+        <div class="card-body">
+            <h4 class="card-title text-danger">Confirm Delete</h4>
+            <p>Are you sure you want to delete the following team member?</p>
+
+            <dl class="row">
+                <dt class="col-sm-4">Full Name</dt>
+                <dd class="col-sm-8">@Model.FullName</dd>
+
+                <dt class="col-sm-4">Role</dt>
+                <dd class="col-sm-8">@Model.Role</dd>
+
+                <dt class="col-sm-4">Photo</dt>
+                <dd class="col-sm-8">
+                    <img src="@Model.PhotoUrl" alt="@Model.FullName" width="100" class="rounded-circle" />
+                </dd>
+            </dl>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <button type="submit" class="btn btn-danger">
+                    <i class="fa fa-trash"></i> Confirm Delete
+                </button>
+
+                <a href="@Url.Action("Index", "TeamMember")" class="btn btn-secondary">
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

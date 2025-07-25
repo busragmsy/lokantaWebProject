@@ -1,0 +1,42 @@
+﻿@using lokantaWebProject.Entities
+@model TeamMember  
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-6 offset-lg-3">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Team Member Details</h4>
+
+            <div class="text-center mb-4">
+                <img src="@Model.PhotoUrl" alt="@Model.FullName" class="rounded-circle" width="120" height="120" />
+            </div>
+
+            <dl class="row">
+                <dt class="col-sm-4">Full Name</dt>
+                <dd class="col-sm-8">@Model.FullName</dd>
+
+                <dt class="col-sm-4">Role</dt>
+                <dd class="col-sm-8">@Model.Role</dd>
+
+                <dt class="col-sm-4">Bio</dt>
+                <dd class="col-sm-8">@Model.Bio</dd>
+
+                <dt class="col-sm-4">Photo URL</dt>
+                <dd class="col-sm-8">@Model.PhotoUrl</dd>
+            </dl>
+
+            <a href="@Url.Action("Edit", "TeamMember", new { id = Model.Id })" class="btn btn-primary">
+                <i class="fa fa-pencil-alt"></i> Edit
+            </a>
+            <a href="@Url.Action("Index", "TeamMember")" class="btn btn-secondary">
+                Back to List
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
