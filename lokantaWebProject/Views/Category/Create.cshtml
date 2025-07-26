@@ -1,0 +1,36 @@
+﻿@using lokantaWebProject.Entities
+@model Category
+
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-6 offset-lg-3">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Add New Category</h4>
+
+            <form asp-action="Create" method="post">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-save"></i> Save
+                </button>
+                <a href="@Url.Action("Index", "Category")" class="btn btn-secondary">
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+

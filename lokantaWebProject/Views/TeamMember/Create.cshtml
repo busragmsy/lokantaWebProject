@@ -1,5 +1,5 @@
 ﻿@using lokantaWebProject.Entities
-@model TeamMember
+@model MenuItem
 
 @{
     ViewData["Title"] = "Create";
@@ -9,37 +9,48 @@
 <div class="col-lg-8 offset-lg-2">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Add New Team Member</h4>
+            <h4 class="card-title">Add New Menu Item</h4>
+
+            <!-- Genel doğrulama mesajları -->
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             <form asp-action="Create" method="post">
                 <div class="form-group">
-                    <label asp-for="FullName"></label>
-                    <input asp-for="FullName" class="form-control" />
-                    <span asp-validation-for="FullName" class="text-danger"></span>
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Role"></label>
-                    <input asp-for="Role" class="form-control" />
-                    <span asp-validation-for="Role" class="text-danger"></span>
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Bio"></label>
-                    <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
-                    <span asp-validation-for="Bio" class="text-danger"></span>
+                    <label asp-for="Price"></label>
+                    <input asp-for="Price" class="form-control" type="number" step="0.01" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="PhotoUrl"></label>
-                    <input asp-for="PhotoUrl" class="form-control" />
-                    <span asp-validation-for="PhotoUrl" class="text-danger"></span>
+                    <label asp-for="ImageUrl">Image URL</label>
+                    <input asp-for="ImageUrl" class="form-control" placeholder="https://..." />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
                 </div>
 
-                <button type="submit" class="btn btn-success">
+                <div class="form-group">
+                    <label asp-for="CategoryId">Category</label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-inverse-success rounded-pill fw-bold">
                     <i class="fa fa-save"></i> Save
                 </button>
-                <a href="@Url.Action("Index", "TeamMember")" class="btn btn-secondary">
+                <a href="@Url.Action("Index", "MenuItem")" class="btn btn-secondary rounded-pill fw-bold">
                     Cancel
                 </a>
             </form>
@@ -50,5 +61,3 @@
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
-
-

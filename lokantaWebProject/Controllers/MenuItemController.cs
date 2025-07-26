@@ -44,7 +44,7 @@ namespace lokantaWebProject.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", menuItem.CategoryId);
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name");
             return View(menuItem);
         }
 

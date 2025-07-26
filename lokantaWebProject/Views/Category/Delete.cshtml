@@ -1,0 +1,36 @@
+﻿@using lokantaWebProject.Entities
+@model Category
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-6 offset-lg-3">
+    <div class="card border-danger">
+        <div class="card-body">
+            <h4 class="card-title text-danger">Confirm Delete</h4>
+            <p class="text-muted">Are you sure you want to delete the following category?</p>
+
+            <dl class="row">
+                <dt class="col-sm-4">ID</dt>
+                <dd class="col-sm-8">@Model.Id</dd>
+
+                <dt class="col-sm-4">Category Name</dt>
+                <dd class="col-sm-8">@Model.Name</dd>
+            </dl>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <button type="submit" class="btn btn-danger">
+                    <i class="fa fa-trash"></i> Confirm Delete
+                </button>
+                <a href="@Url.Action("Index", "Category")" class="btn btn-secondary">
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+
