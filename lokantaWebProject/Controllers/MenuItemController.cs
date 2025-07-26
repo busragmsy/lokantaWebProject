@@ -19,7 +19,7 @@ namespace lokantaWebProject.Controllers
         public async Task<IActionResult> Index()
         {
             var menuItems = await _context.MenuItems
-                .Include(m => m.Category)
+                .Include(m => m.Category) // Kategori bilgilerini de yükle
                 .ToListAsync();
 
             return View(menuItems);
@@ -44,7 +44,8 @@ namespace lokantaWebProject.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name");
+            // Eğer model geçerli değilse, kategorileri tekrar View'e gönder
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", menuItem.CategoryId);
             return View(menuItem);
         }
 
@@ -69,8 +70,22 @@ namespace lokantaWebProject.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Update(menuItem);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.Update(menuItem);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.MenuItems.Any(e => e.Id == menuItem.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
 
@@ -98,8 +113,11 @@ namespace lokantaWebProject.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var menuItem = await _context.MenuItems.FindAsync(id);
-            _context.MenuItems.Remove(menuItem);
-            await _context.SaveChangesAsync();
+            if (menuItem != null) // Kontrol ekledik
+            {
+                _context.MenuItems.Remove(menuItem);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
 

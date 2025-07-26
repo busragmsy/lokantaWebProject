@@ -1,16 +1,15 @@
 ﻿@using lokantaWebProject.Entities
 @model Category
 
-
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Yeni Kategori Ekle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="col-lg-6 offset-lg-3">
+<div class="col-lg-8 offset-lg-2">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Add New Category</h4>
+            <h4 class="card-title">Yeni Kategori Ekle</h4>
 
             <form asp-action="Create" method="post">
                 <div class="form-group">
@@ -19,11 +18,11 @@
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
-                <button type="submit" class="btn btn-success">
-                    <i class="fa fa-save"></i> Save
+                <button type="submit" class="btn btn-inverse-success rounded-pill fw-bold">
+                    <i class="fa fa-save"></i> Kaydet
                 </button>
-                <a href="@Url.Action("Index", "Category")" class="btn btn-secondary">
-                    Cancel
+                <a asp-action="Index" class="btn btn-secondary rounded-pill fw-bold">
+                    İptal
                 </a>
             </form>
         </div>
@@ -33,4 +32,3 @@
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
-

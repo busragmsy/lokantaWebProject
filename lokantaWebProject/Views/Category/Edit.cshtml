@@ -1,14 +1,15 @@
 ﻿@using lokantaWebProject.Entities
 @model Category
+
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Kategoriyi Düzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="col-lg-6 offset-lg-3">
+<div class="col-lg-8 offset-lg-2">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Edit Category</h4>
+            <h4 class="card-title">Kategoriyi Düzenle</h4>
 
             <form asp-action="Edit" method="post">
                 <input type="hidden" asp-for="Id" />
@@ -20,10 +21,10 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">
-                    <i class="fa fa-save"></i> Update
+                    <i class="fa fa-save"></i> Güncelle
                 </button>
-                <a href="@Url.Action("Index", "Category")" class="btn btn-secondary">
-                    Cancel
+                <a asp-action="Index" class="btn btn-secondary">
+                    İptal
                 </a>
             </form>
         </div>
@@ -33,4 +34,3 @@
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
-

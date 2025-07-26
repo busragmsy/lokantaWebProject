@@ -2,27 +2,39 @@
 @model MenuItem
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Menü Öğesini Sil";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="col-lg-6 offset-lg-3">
     <div class="card border-danger">
         <div class="card-body">
-            <h4 class="card-title text-danger">Confirm Delete</h4>
-            <p class="text-muted">Are you sure you want to delete the following menu item?</p>
+            <h4 class="card-title text-danger">Silmeyi Onayla</h4>
+            <p class="text-muted">Bu menü öğesini silmek istediğinizden emin misiniz?</p>
 
             <dl class="row">
-                <dt class="col-sm-4">Name</dt>
+                <dt class="col-sm-4">Adı</dt>
                 <dd class="col-sm-8">@Model.Name</dd>
 
-                <dt class="col-sm-4">Description</dt>
+                <dt class="col-sm-4">Açıklama</dt>
                 <dd class="col-sm-8">@Model.Description</dd>
 
-                <dt class="col-sm-4">Price</dt>
+                <dt class="col-sm-4">Fiyat</dt>
                 <dd class="col-sm-8">@Model.Price.ToString("C")</dd>
 
-                <dt class="col-sm-4">Category</dt>
+                <dt class="col-sm-4">Görsel URL</dt>
+                <dd class="col-sm-8">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" alt="@Model.Name" width="100" class="img-thumbnail" />
+                    }
+                    else
+                    {
+                        <span>Görsel Yok</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-4">Kategori</dt>
                 <dd class="col-sm-8">@Model.Category?.Name</dd>
             </dl>
 
@@ -30,14 +42,12 @@
                 <input type="hidden" asp-for="Id" />
 
                 <button type="submit" class="btn btn-danger">
-                    <i class="fa fa-trash"></i> Confirm Delete
+                    <i class="fa fa-trash"></i> Silmeyi Onayla
                 </button>
-                <a href="@Url.Action("Index", "MenuItem")" class="btn btn-secondary">
-                    Cancel
+                <a asp-action="Index" class="btn btn-secondary">
+                    İptal
                 </a>
             </form>
         </div>
     </div>
 </div>
-
-

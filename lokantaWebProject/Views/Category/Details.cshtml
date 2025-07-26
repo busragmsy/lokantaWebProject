@@ -1,31 +1,26 @@
 ﻿@using lokantaWebProject.Entities
 @model Category
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Kategori Detayları";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="col-lg-6 offset-lg-3">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Category Details</h4>
+            <h4 class="card-title">Kategori Detayları</h4>
 
             <dl class="row">
-                <dt class="col-sm-4">ID</dt>
-                <dd class="col-sm-8">@Model.Id</dd>
-
-                <dt class="col-sm-4">Category Name</dt>
+                <dt class="col-sm-4">Adı</dt>
                 <dd class="col-sm-8">@Model.Name</dd>
             </dl>
 
-            <a href="@Url.Action("Edit", "Category", new { id = Model.Id })" class="btn btn-primary">
-                <i class="fa fa-pencil-alt"></i> Edit
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                <i class="fa fa-pencil-alt"></i> Düzenle
             </a>
-            <a href="@Url.Action("Index", "Category")" class="btn btn-secondary">
-                Back to List
+            <a asp-action="Index" class="btn btn-secondary">
+                Listeye Geri Dön
             </a>
         </div>
     </div>
 </div>
-
-

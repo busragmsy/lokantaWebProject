@@ -1,0 +1,89 @@
+﻿@using lokantaWebProject.Entities
+@model IEnumerable<Comment>
+
+@{
+    ViewData["Title"] = "Yorumlar"; // Sayfanın başlığı
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Kullanılan layout dosyası
+    var count = 1; // Tablo satır numarası için sayaç
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Müşteri Yorumları</h4> <p class="card-description">Müşteri yorumlarını buradan yönetebilirsiniz.</p> <a class="btn btn-inverse-success rounded-pill fw-bold mb-3" href="@Url.Action("Create", "Comment")">
+                <i class="fa fa-plus"></i> Yeni Yorum Ekle
+            </a>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>No</th>
+                            <th>Yorum Yapan</th>
+                            <th style="width: 15px;">Yorum İçeriği</th>
+                            <th>Fotoğraf/İkon</th>
+                            <th>Puan</th>
+                            <th>Eklenme Tarihi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var comment in Model)
+                        {
+                            <tr>
+                                <td>@count</td>
+                                <td>@comment.AuthorName</td>
+                                <td style="width: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    @{
+                                        // C# tarafında da metni kısaltıyoruz, böylece çok uzun metinler bellekte veya HTML'de gereksiz yer kaplamaz.
+                                        string displayText = comment.Text;
+                                        int maxLength = 40; // Gösterilecek maksimum karakter sayısı (80'e düşürüldü)
+                                        if (displayText.Length > maxLength)
+                                        {
+                                            displayText = displayText.Substring(0, maxLength) + "...";
+                                        }
+                                    }
+                                    @displayText
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(comment.ImageUrl) && (comment.ImageUrl.StartsWith("http") || comment.ImageUrl.StartsWith("https")))
+                                    {
+                                        <img src="@comment.ImageUrl" alt="Yorum Yapan" width="50" height="50" class="rounded-circle" />
+                                    }
+                                    else if (!string.IsNullOrEmpty(comment.ImageUrl))
+                                    {
+                                        <i class="@comment.ImageUrl fa-2x"></i>
+                                    }
+                                    else
+                                    {
+                                        <span>Yok</span>
+                                    }
+                                </td>
+                                <td>
+                                    @for (int i = 0; i < comment.Rating; i++)
+                                    {
+                                        <i class="fa fa-star text-warning"></i>
+                                    }
+                                    (@comment.Rating)
+                                </td>
+                                <td>@comment.DatePosted.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td>
+                                    <a class="btn btn-sm btn-inverse-primary rounded-pill fw-bold" style="margin-right: 20px;" href="@Url.Action("Edit", "Comment", new { id = comment.Id })">
+                                        <i class="fa fa-pencil-alt"></i> Düzenle
+                                    </a>
+                                    <a class="btn btn-sm btn-inverse-info rounded-pill fw-bold" style="margin-right: 20px;" href="@Url.Action("Details", "Comment", new { id = comment.Id })">
+                                        <i class="fa fa-eye"></i> Detaylar
+                                    </a>
+                                    <a class="btn btn-sm btn-inverse-danger rounded-pill fw-bold" href="@Url.Action("Delete", "Comment", new { id = comment.Id })" onclick="return confirm('Bu yorumu silmek istediğinizden emin misiniz?');">
+                                        <i class="fa fa-trash"></i> Sil
+                                    </a>
+                                </td>
+                            </tr>
+                            count++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

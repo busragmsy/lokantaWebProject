@@ -1,0 +1,34 @@
+﻿@using lokantaWebProject.Entities
+@model Comment
+
+@{
+    ViewData["Title"] = "Yorum Sil"; // Sayfanın başlığı
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Kullanılan layout dosyası
+}
+
+<div class="col-lg-6 offset-lg-3">
+    <div class="card border-danger">
+        <div class="card-body">
+            <h4 class="card-title text-danger">Silme Onayı</h4> <p class="text-muted">Bu yorumu silmek istediğinizden emin misiniz?</p> <dl class="row">
+                <dt class="col-sm-4">Yorum Yapan Adı</dt>
+                <dd class="col-sm-8">@Model.AuthorName</dd>
+
+                <dt class="col-sm-4">Yorum İçeriği</dt>
+                <dd class="col-sm-8">@Model.Text</dd>
+
+                <dt class="col-sm-4">Puan</dt>
+                <dd class="col-sm-8">@Model.Rating / 5 Yıldız</dd>
+            </dl>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" /> <button type="submit" class="btn btn-danger">
+                    <i class="fa fa-trash"></i> Silmeyi Onayla
+                </button>
+
+                <a href="@Url.Action("Index", "Comment")" class="btn btn-secondary">
+                    İptal
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
