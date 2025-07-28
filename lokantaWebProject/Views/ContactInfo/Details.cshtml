@@ -1,0 +1,67 @@
+﻿@using lokantaWebProject.Entities
+@model ContactInfo
+
+@{
+    ViewData["Title"] = "İletişim Bilgisi Detayları"; // Sayfanın başlığı
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Kullanılan layout dosyası
+}
+
+<div class="col-lg-6 offset-lg-3">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">İletişim Bilgisi Detayları</h4> <dl class="row">
+                <dt class="col-sm-4">Adres</dt>
+                <dd class="col-sm-8">@Model.Address</dd>
+
+                <dt class="col-sm-4">Telefon</dt>
+                <dd class="col-sm-8">@Model.Phone</dd>
+
+                <dt class="col-sm-4">E-posta</dt>
+                <dd class="col-sm-8">@Model.Email</dd>
+
+                <dt class="col-sm-4">Facebook URL</dt>
+                <dd class="col-sm-8">
+                    @if (!string.IsNullOrEmpty(Model.FacebookUrl))
+                    {
+                        <a href="@Model.FacebookUrl" target="_blank">@Model.FacebookUrl</a>
+                    }
+                    else
+                    {
+                        <span>Yok</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-4">Instagram URL</dt>
+                <dd class="col-sm-8">
+                    @if (!string.IsNullOrEmpty(Model.InstagramUrl))
+                    {
+                        <a href="@Model.InstagramUrl" target="_blank">@Model.InstagramUrl</a>
+                    }
+                    else
+                    {
+                        <span>Yok</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-4">Twitter URL</dt>
+                <dd class="col-sm-8">
+                    @if (!string.IsNullOrEmpty(Model.TwitterUrl))
+                    {
+                        <a href="@Model.TwitterUrl" target="_blank">@Model.TwitterUrl</a>
+                    }
+                    else
+                    {
+                        <span>Yok</span>
+                    }
+                </dd>
+            </dl>
+
+            <a href="@Url.Action("Edit", "ContactInfo", new { id = Model.Id })" class="btn btn-primary">
+                <i class="fa fa-pencil-alt"></i> Düzenle
+            </a>
+            <a href="@Url.Action("Index", "ContactInfo")" class="btn btn-secondary">
+                Listeye Geri Dön
+            </a>
+        </div>
+    </div>
+</div>

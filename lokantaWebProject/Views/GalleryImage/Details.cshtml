@@ -1,0 +1,39 @@
+﻿@using lokantaWebProject.Entities
+@model GalleryImage
+
+@{
+    ViewData["Title"] = "Galeri Görsel Detayları"; // Sayfanın başlığı
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Kullanılan layout dosyası
+}
+
+<div class="col-lg-6 offset-lg-3">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Galeri Görsel Detayları</h4> <div class="text-center mb-4">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" alt="@Model.Caption" class="img-fluid rounded" style="max-width: 100%; height: auto; border: 1px solid #ddd;" />
+                }
+                else
+                {
+                    <p class="text-muted">Görsel bulunamadı.</p>
+                }
+            </div>
+
+            <dl class="row">
+                <dt class="col-sm-4">Görsel URL'si</dt>
+                <dd class="col-sm-8">@Model.ImageUrl</dd>
+
+                <dt class="col-sm-4">Açıklama</dt>
+                <dd class="col-sm-8">@(string.IsNullOrEmpty(Model.Caption) ? "Açıklama Yok" : Model.Caption)</dd>
+            </dl>
+
+            <a href="@Url.Action("Edit", "GalleryImage", new { id = Model.Id })" class="btn btn-primary">
+                <i class="fa fa-pencil-alt"></i> Düzenle
+            </a>
+            <a href="@Url.Action("Index", "GalleryImage")" class="btn btn-secondary">
+                Listeye Geri Dön
+            </a>
+        </div>
+    </div>
+</div>

@@ -5,14 +5,14 @@
 namespace lokantaWebProject.Migrations
 {
     /// <inheritdoc />
-    public partial class menumig : Migration
+    public partial class Adminupdate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "ImageUrl",
-                table: "MenuItems",
+                name: "FullName",
+                table: "AspNetUsers",
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -23,8 +23,8 @@ namespace lokantaWebProject.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "ImageUrl",
-                table: "MenuItems",
+                name: "FullName",
+                table: "AspNetUsers",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "",

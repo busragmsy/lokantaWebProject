@@ -1,0 +1,63 @@
+﻿@using lokantaWebProject.Entities
+@model IEnumerable<About>
+
+@{
+    ViewData["Title"] = "Hakkımızda"; // Sayfanın başlığı
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Kullanılan layout dosyası
+    var count = 1; // Tablo satır numarası için sayaç
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Hakkımızda Bilgileri</h4> <p class="card-description">Restoranınızla ilgili "Hakkımızda" bölümündeki içerikleri buradan yönetebilirsiniz.</p> <a class="btn btn-inverse-success rounded-pill fw-bold mb-3" href="@Url.Action("Create", "About")">
+                <i class="fa fa-plus"></i> Yeni Hakkımızda Bilgisi Ekle
+            </a>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>No</th>
+                            <th>Başlık</th>
+                            <th style="width: 120px;">Açıklama</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@count</td>
+                                <td>@item.Title</td>
+                                <td style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    @{
+                                        string displayText = item.Description;
+                                        int maxLength = 80; // Gösterilecek maksimum karakter sayısı
+                                        if (displayText.Length > maxLength)
+                                        {
+                                            displayText = displayText.Substring(0, maxLength) + "...";
+                                        }
+                                    }
+                                    @displayText
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-inverse-primary rounded-pill fw-bold" style="margin-right: 20px;" href="@Url.Action("Edit", "About", new { id = item.Id })">
+                                        <i class="fa fa-pencil-alt"></i> Düzenle
+                                    </a>
+                                    <a class="btn btn-sm btn-inverse-info rounded-pill fw-bold" style="margin-right: 20px;" href="@Url.Action("Details", "About", new { id = item.Id })">
+                                        <i class="fa fa-eye"></i> Detaylar
+                                    </a>
+                                    <a class="btn btn-sm btn-inverse-danger rounded-pill fw-bold" href="@Url.Action("Delete", "About", new { id = item.Id })" onclick="return confirm('Bu bilgiyi silmek istediğinizden emin misiniz?');">
+                                        <i class="fa fa-trash"></i> Sil
+                                    </a>
+                                </td>
+                            </tr>
+                            count++; // Sayaç her satırda artırılır
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

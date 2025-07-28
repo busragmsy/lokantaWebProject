@@ -1,0 +1,40 @@
+﻿@using lokantaWebProject.Entities
+@model GalleryImage
+
+@{
+    ViewData["Title"] = "Yeni Galeri Görseli Ekle"; // Sayfanın başlığı
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Kullanılan layout dosyası
+}
+
+<div class="col-lg-8 offset-lg-2">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Yeni Galeri Görseli Ekle</h4> @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <form asp-action="Create" method="post">
+                <div class="form-group">
+                    <label asp-for="ImageUrl"></label>
+                    <input asp-for="ImageUrl" class="form-control" placeholder="https://example.com/galeri-fotografi.jpg" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Caption"></label>
+                    <input asp-for="Caption" class="form-control" placeholder="Görsel için kısa bir açıklama" />
+                    <span asp-validation-for="Caption" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-inverse-success rounded-pill fw-bold">
+                    <i class="fa fa-save"></i> Kaydet
+                </button>
+                <a href="@Url.Action("Index", "GalleryImage")" class="btn btn-secondary rounded-pill fw-bold">
+                    İptal
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

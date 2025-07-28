@@ -1,14 +1,16 @@
 ﻿using lokantaWebProject.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace lokantaWebProject.Context
 {
-    public class AdminDbContext: DbContext
+    public class AdminDbContext: IdentityDbContext<Admin, IdentityRole<int>, int>
     {
         public AdminDbContext(DbContextOptions<AdminDbContext> options) : base(options)
         { 
         }
-        public DbSet<Admin> Admins { get; set; }
+        
         public DbSet<Message> Messages { get; set; }
         public DbSet<About> Abouts { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
@@ -20,6 +22,7 @@ namespace lokantaWebProject.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             // Category ve MenuItem arasındaki bir-çok ilişkiyi açıkça tanımla
             modelBuilder.Entity<MenuItem>()
                 .HasOne(m => m.Category)
@@ -27,7 +30,7 @@ namespace lokantaWebProject.Context
                 .HasForeignKey(m => m.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict); // İlişkili MenuItem'lar varken kategori silinmesini engelle
 
-            base.OnModelCreating(modelBuilder);
+            
         }
     }
 }

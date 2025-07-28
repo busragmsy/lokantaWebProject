@@ -1,0 +1,64 @@
+﻿@using lokantaWebProject.Entities
+@model ContactInfo
+
+@{
+    ViewData["Title"] = "İletişim Bilgisi Düzenle"; // Sayfanın başlığı
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Kullanılan layout dosyası
+}
+
+<div class="col-lg-8 offset-lg-2">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">İletişim Bilgisi Düzenle</h4> @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" /> <div class="form-group">
+                    <label asp-for="Address"></label>
+                    <textarea asp-for="Address" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Phone"></label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FacebookUrl"></label>
+                    <input asp-for="FacebookUrl" class="form-control" placeholder="https://www.facebook.com/kullaniciadi" />
+                    <span asp-validation-for="FacebookUrl" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="InstagramUrl"></label>
+                    <input asp-for="InstagramUrl" class="form-control" placeholder="https://www.instagram.com/kullaniciadi" />
+                    <span asp-validation-for="InstagramUrl" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TwitterUrl"></label>
+                    <input asp-for="TwitterUrl" class="form-control" placeholder="https://twitter.com/kullaniciadi" />
+                    <span asp-validation-for="TwitterUrl" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> Güncelle
+                </button>
+                <a href="@Url.Action("Index", "ContactInfo")" class="btn btn-secondary">
+                    İptal
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

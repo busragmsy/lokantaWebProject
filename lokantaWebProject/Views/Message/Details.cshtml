@@ -1,0 +1,49 @@
+﻿@using lokantaWebProject.Entities
+@model Message
+
+@{
+    ViewData["Title"] = "Mesaj Detayları"; // Sayfanın başlığı
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Kullanılan layout dosyası
+}
+
+<div class="col-lg-8 offset-lg-2">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Mesaj Detayları</h4> <dl class="row">
+                <dt class="col-sm-4">Gönderen Adı</dt>
+                <dd class="col-sm-8">@Model.SenderName</dd>
+
+                <dt class="col-sm-4">Gönderen E-posta</dt>
+                <dd class="col-sm-8">@Model.SenderEmail</dd>
+
+                <dt class="col-sm-4">Konu</dt>
+                <dd class="col-sm-8">@Model.Subject</dd>
+
+                <dt class="col-sm-4">Mesaj İçeriği</dt>
+                <dd class="col-sm-8">@Model.MessageContent</dd>
+
+                <dt class="col-sm-4">Gönderilme Tarihi</dt>
+                <dd class="col-sm-8">@Model.SentDate.ToString("dd.MM.yyyy HH:mm")</dd>
+
+                <dt class="col-sm-4">Okundu Bilgisi</dt>
+                <dd class="col-sm-8">
+                    @if (Model.IsRead)
+                    {
+                        <span class="badge bg-success">Evet</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning text-dark">Hayır</span>
+                    }
+                </dd>
+            </dl>
+
+            <a href="@Url.Action("Index", "Message")" class="btn btn-secondary">
+                Listeye Geri Dön
+            </a>
+            <a href="@Url.Action("Delete", "Message", new { id = Model.Id })" class="btn btn-danger">
+                <i class="fa fa-trash"></i> Sil
+            </a>
+        </div>
+    </div>
+</div>

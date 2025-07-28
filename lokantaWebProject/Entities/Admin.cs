@@ -1,12 +1,15 @@
-﻿namespace lokantaWebProject.Entities
+﻿using System;
+using Microsoft.AspNetCore.Identity;
+
+namespace lokantaWebProject.Entities
 {
-    public class Admin
+    // IdentityUser<int> olarak değiştirin
+    public class Admin : IdentityUser<int>
     {
-        public int Id { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public string PasswordHash { get; set; }  // şifreyi şifreli tut
+        
+        public string? FullName { get; set; } // Sadece eklemek istediğiniz alanlar kalsın
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
+        
     }
 }
