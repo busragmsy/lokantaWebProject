@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options; // IPostConfigureOptions için gerekli
-using System;
+using System; 
 using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
