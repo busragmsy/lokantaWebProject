@@ -1,4 +1,5 @@
 ﻿using lokantaWebProject.Entities;
+using lokantaWebProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,8 @@ namespace lokantaWebProject.Context
         public DbSet<Comment> Comments { get; set; }
         public DbSet<ContactInfo> ContactInfos { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<AdminLoginLog> AdminLoginLogs { get; set; }
+        public DbSet<ToDo> ToDos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

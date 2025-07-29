@@ -1,0 +1,16 @@
+﻿@using lokantaWebProject.Entities
+@model List<GalleryImage>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Galerimiz</h4>
+        <div class="owl-carousel owl-theme" id="owl-carousel-basic">
+            @foreach (var image in Model)
+            {
+                <div class="item">
+                    <img src="@image.ImageUrl" class="img-fluid rounded" style="width: 100%; height: 250px; object-fit: cover;" />
+                </div>
+            }
+        </div>
+    </div>
+</div>

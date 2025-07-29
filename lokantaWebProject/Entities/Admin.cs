@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace lokantaWebProject.Entities
@@ -6,10 +7,9 @@ namespace lokantaWebProject.Entities
     // IdentityUser<int> olarak değiştirin
     public class Admin : IdentityUser<int>
     {
-        
-        public string? FullName { get; set; } // Sadece eklemek istediğiniz alanlar kalsın
+        [Required(ErrorMessage = "Ad Soyad alanı zorunludur.")] 
+        public string FullName { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
-        
     }
 }

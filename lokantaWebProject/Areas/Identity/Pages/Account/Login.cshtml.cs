@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using lokantaWebProject.Context;
 using lokantaWebProject.Entities;
+using lokantaWebProject.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace lokantaWebProject.Areas.Identity.Pages.Account
 {
@@ -21,14 +23,17 @@ namespace lokantaWebProject.Areas.Identity.Pages.Account
         private readonly UserManager<Admin> _userManager;
         private readonly SignInManager<Admin> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly AdminDbContext _context;
 
         public LoginModel(SignInManager<Admin> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<Admin> userManager)
+            UserManager<Admin> userManager,
+            AdminDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         [BindProperty]
@@ -43,15 +48,15 @@ namespace lokantaWebProject.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "E-posta adresi boş bırakılamaz.")] // Hata mesajı eklendi
+            [EmailAddress(ErrorMessage = "Geçerli bir e-posta adresi giriniz.")] // Hata mesajı eklendi
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Şifre boş bırakılamaz.")] // Hata mesajı eklendi
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Beni Hatırla")] // Türkçe isim
             public bool RememberMe { get; set; }
         }
 
@@ -77,35 +82,59 @@ namespace lokantaWebProject.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        
+
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+                var ipAddress = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
+                var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                    _context.AdminLoginLogs.Add(new AdminLoginLog
+                    {
+                        UserName = user?.UserName ?? Input.Email,
+                        IsSuccessful = true,
+                        LoginTime = DateTime.Now,
+                        IpAddress = ipAddress,
+                        UserAgent = userAgent
+                    });
+                    await _context.SaveChangesAsync();
+
+                    return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));
                 }
+
+                if (result.IsLockedOut)
+                {
+                    // Gerekirse burada da log kaydı yapabilirsin
+                    return RedirectToPage("./Lockout");
+                }
+
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
-                if (result.IsLockedOut)
+
+                // Başarısız giriş buraya düşer
+                _context.AdminLoginLogs.Add(new AdminLoginLog
                 {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
-                }
+                    UserName = Input.Email,
+                    IsSuccessful = false,
+                    LoginTime = DateTime.Now,
+                    IpAddress = ipAddress,
+                    UserAgent = userAgent
+                });
+                await _context.SaveChangesAsync();
+
+                ModelState.AddModelError(string.Empty, "Geçersiz giriş denemesi.");
+                _logger.LogWarning($"Kullanıcı '{Input.Email}' için başarısız giriş denemesi. IP: {ipAddress}");
+                return Page();
             }
 
-            // If we got this far, something failed, redisplay form
-            return Page();
+            return Page(); // ModelState geçersizse form tekrar gösterilir
         }
     }
 }

@@ -1,0 +1,40 @@
+﻿<div class="col-lg-12 stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Son Eklenen Menü Öğeleri</h4>
+            <p class="card-description"> Menüdeki en son eklenen <code>ürünler</code>. </p>
+            <div class="table-responsive">
+                <table class="table table-dark">
+                    @* Inverse table teması için .table-dark *@
+                    <thead>
+                        <tr>
+                            <th> # </th>
+                            <th> Ürün Adı </th>
+                            <th> Fiyat </th>
+                            <th> Kategori </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.LatestMenuItems != null && ViewBag.LatestMenuItems.Count > 0)
+                        {
+                            @foreach (var item in ViewBag.LatestMenuItems)
+                            {
+                                <tr>
+                                    <td> @item.Id </td>
+                                    <td> @item.Name </td>
+                                    <td> @item.Price.ToString("C") </td>
+                                    <td>@item.Category?.Name</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td colspan="5">Henüz menü öğesi bulunmuyor.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
