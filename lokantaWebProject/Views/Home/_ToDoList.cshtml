@@ -6,9 +6,9 @@
     <div class="card-body d-flex flex-column">
         <h4 class="card-title">To Do List</h4>
 
-        <form asp-action="Add" method="post" class="add-items d-flex mb-3">
-            <input name="task" class="form-control todo-list-input" placeholder="Görev girin..." />
-            <button type="submit" class="btn btn-primary todo-list-add-btn ml-2">Ekle</button>
+        <form asp-action="Add" asp-controller="Home" method="post" class="d-flex mb-3">
+            <input name="task" class="form-control" placeholder="Görev girin..." />
+            <button type="submit" class="btn btn-primary">Ekle</button>
         </form>
 
         <div class="list-wrapper flex-grow-1 overflow-auto" style="max-height: 220px;">

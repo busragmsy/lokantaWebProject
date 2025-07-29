@@ -1,33 +1,29 @@
 ﻿using lokantaWebProject.Context;
 using lokantaWebProject.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; // ToListAsync, FindAsync, FirstOrDefaultAsync için
+using Microsoft.EntityFrameworkCore;
 
 namespace lokantaWebProject.Controllers
 {
     public class CommentController : Controller
     {
-        private readonly AdminDbContext _context; // Veritabanı bağlamı
+        private readonly AdminDbContext _context; 
 
         public CommentController(AdminDbContext context)
         {
-            _context = context; // Dependency Injection ile bağlamı başlat
+            _context = context;
         }
 
         // GET: /Comment/
-        // Tüm yorumları listeleyen ana sayfa
         public async Task<IActionResult> Index()
         {
-            // Tüm yorumları veritabanından asenkron olarak çek ve View'e gönder
             var comments = await _context.Comments.ToListAsync();
             return View(comments);
         }
 
         // GET: /Comment/Details/5
-        // Belirli bir yorumun detaylarını gösterir
         public async Task<IActionResult> Details(int? id)
         {
-            // Id null ise veya yorum bulunamazsa 404 döndür
             if (id == null)
             {
                 return NotFound();
@@ -39,8 +35,6 @@ namespace lokantaWebProject.Controllers
             {
                 return NotFound();
             }
-
-            // Yorumu View'e gönder
             return View(comment);
         }
 
@@ -69,21 +63,17 @@ namespace lokantaWebProject.Controllers
         }
 
         // GET: /Comment/Edit/5
-        // Belirli bir yorumu düzenleme formunu gösterir
         public async Task<IActionResult> Edit(int? id)
         {
-            // Id null ise veya yorum bulunamazsa 404 döndür
             if (id == null)
             {
                 return NotFound();
             }
-
-            var comment = await _context.Comments.FindAsync(id); // Yorumu Id'ye göre bul
+            var comment = await _context.Comments.FindAsync(id);
             if (comment == null)
             {
                 return NotFound();
             }
-            // Yorumu View'e gönder
             return View(comment);
         }
 
@@ -121,15 +111,12 @@ namespace lokantaWebProject.Controllers
                 }
                 return RedirectToAction(nameof(Index)); // Index sayfasına yönlendir
             }
-            // Doğrulama başarısız ise aynı View'i hatalarla birlikte geri döndür
             return View(comment);
         }
 
         // GET: /Comment/Delete/5
-        // Belirli bir yorumu silme onay sayfasını gösterir
         public async Task<IActionResult> Delete(int? id)
         {
-            // Id null ise veya yorum bulunamazsa 404 döndür
             if (id == null)
             {
                 return NotFound();
@@ -142,26 +129,23 @@ namespace lokantaWebProject.Controllers
                 return NotFound();
             }
 
-            // Yorumu View'e gönder
             return View(comment);
         }
 
         // POST: /Comment/Delete/5
-        // Yorumu veritabanından siler
-        [HttpPost, ActionName("Delete")] // POST isteği için "Delete" aksiyon adını kullan
-        [ValidateAntiForgeryToken] // CSRF saldırılarına karşı koruma
+        [HttpPost, ActionName("Delete")] 
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var comment = await _context.Comments.FindAsync(id); // Yorumu Id'ye göre bul
+            var comment = await _context.Comments.FindAsync(id); 
             if (comment != null)
             {
-                _context.Comments.Remove(comment); // Yorumu silmek için işaretle
-                await _context.SaveChangesAsync(); // Değişiklikleri kaydet
+                _context.Comments.Remove(comment); 
+                await _context.SaveChangesAsync(); 
             }
-            return RedirectToAction(nameof(Index)); // Index sayfasına yönlendir
+            return RedirectToAction(nameof(Index)); 
         }
 
-        // Yorumun veritabanında var olup olmadığını kontrol eden yardımcı metot
         private bool CommentExists(int id)
         {
             return _context.Comments.Any(e => e.Id == id);

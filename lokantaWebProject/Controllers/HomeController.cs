@@ -4,7 +4,7 @@ using lokantaWebProject.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; // CountAsync() metodu
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace lokantaWebProject.Controllers
@@ -56,14 +56,11 @@ namespace lokantaWebProject.Controllers
                     Task = task,
                     IsCompleted = false
                 };
-
                 _context.ToDos.Add(newTodo);
-                _context.SaveChanges(); // ← Burası şart
+                _context.SaveChanges(); 
             }
-
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Toggle(int id)
@@ -74,7 +71,7 @@ namespace lokantaWebProject.Controllers
                 todo.IsCompleted = !todo.IsCompleted;
                 await _context.SaveChangesAsync(); 
             }
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
@@ -86,7 +83,7 @@ namespace lokantaWebProject.Controllers
                 _context.ToDos.Remove(todo);
                 await _context.SaveChangesAsync(); 
             }
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
         public IActionResult Privacy()
         {
