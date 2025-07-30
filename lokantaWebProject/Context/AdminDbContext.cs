@@ -6,7 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lokantaWebProject.Context
 {
-    public class AdminDbContext: IdentityDbContext<Admin, IdentityRole<int>, int>
+    public class AdminDbContext : IdentityDbContext<
+    Admin,                         // TUser
+    IdentityRole<int>,            // TRole
+    int,                          // TKey
+    IdentityUserClaim<int>,
+    IdentityUserRole<int>,
+    IdentityUserLogin<int>,
+    IdentityRoleClaim<int>,
+    IdentityUserToken<int>>
     {
         public AdminDbContext(DbContextOptions<AdminDbContext> options) : base(options)
         { 

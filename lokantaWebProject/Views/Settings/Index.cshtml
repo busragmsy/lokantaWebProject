@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "Ayarlar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-white">Ayarlar</h2>
+<hr />
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <a class="btn btn-outline-warning w-100" href="/Settings/ChangePassword">
+            <i class="mdi mdi-lock-reset"></i> Şifre Değiştir
+        </a>
+    </div>
+    <div class="col-md-6 mb-3">
+        <a class="btn btn-outline-success w-100" href="/Settings/CreateAdmin">
+            <i class="mdi mdi-account-plus"></i> Yeni Admin Ekle
+        </a>
+    </div>
+</div>

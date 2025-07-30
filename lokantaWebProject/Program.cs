@@ -14,30 +14,26 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AdminDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ASP.NET Core Identity Yapılandırması (GÜVENLİK İYİLEŞTİRMELERİ BURADA!)
+// ASP.NET Core Identity Yapılandırması 
 builder.Services.AddIdentity<Admin, IdentityRole<int>>(options =>
 {
-    // *** Hesap Onayını Zorunlu Yapın ***
-    // Adminler için bu MUTLAKA TRUE olmalı. E-posta onaylanmadan hesaplar aktif olmaz.
     options.SignIn.RequireConfirmedAccount = true;
-
-    // *** Güçlü Şifre Politikası Uygulayın ***
-    // Bu ayarlar, admin panelinizin brute-force saldırılarına karşı direncini artırır.
-    options.Password.RequireDigit = true;           // Şifrede en az bir rakam olmalı
-    options.Password.RequireLowercase = true;       // Şifrede en az bir küçük harf olmalı
-    options.Password.RequireNonAlphanumeric = true; // Şifrede en az bir özel karakter olmalı
-    options.Password.RequireUppercase = true;       // Şifrede en az bir büyük harf olmalı
-    options.Password.RequiredLength = 10;           // Şifre minimum 10 karakter uzunluğunda olmalı (önceden 4'tü, bu çok zayıftı!)
-    options.Password.RequiredUniqueChars = 1;       // Tekrarlayan karakterlere izin verilir, ancak şifrenin genel gücü diğer kurallarla artırıldı
-
-    // *** Hesap Kilitleme Politikasını Tanımlayın ***
-    // Başarısız giriş denemelerinden sonra hesapların geçici olarak kilitlenmesini sağlar.
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Hesap 5 dakika kilitli kalır
-    options.Lockout.MaxFailedAccessAttempts = 5; // 5 başarısız deneme sonrası hesap kilitlenir
-    options.Lockout.AllowedForNewUsers = true; // Yeni oluşturulan kullanıcılar için de kilitlemeyi etkinleştir
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 10;
+    options.Password.RequiredUniqueChars = 1;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
 })
 .AddEntityFrameworkStores<AdminDbContext>()
-.AddDefaultTokenProviders(); // Şifre sıfırlama, e-posta onayı gibi token'lar için gerekli
+.AddDefaultTokenProviders();
+
+builder.Services.AddScoped<RoleManager<IdentityRole<int>>>();
+builder.Services.AddScoped<UserManager<Admin>>();
+builder.Services.AddScoped<SignInManager<Admin>>();
 
 // Çerez Kimlik Doğrulama Ayarları
 builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, options =>
@@ -55,8 +51,10 @@ builder.Services.AddRazorPages();
 // Yetkilendirme Politikalarını Tanımlayın
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin", "SuperAdmin"));
+    options.AddPolicy("SuperAdminOnly", policy => policy.RequireRole("SuperAdmin"));
 });
+
 
 var app = builder.Build();
 
@@ -95,7 +93,7 @@ app.MapGet("/", async context =>
     }
     else
     {
-        context.Response.Redirect("/Home/Index"); // kullanıcı zaten giriş yaptıysa admin paneline
+        context.Response.Redirect("/Home/Index"); 
     }
     await Task.CompletedTask;
 });
