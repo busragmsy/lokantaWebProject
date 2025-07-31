@@ -1,0 +1,28 @@
+﻿@using lokantaWebProject.Entities
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    @await Html.PartialAsync("View")
+</div> 
+
+<div class="row mt-4">
+    @await Html.PartialAsync("_LatestMenu")
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        @await Html.PartialAsync("_Gallery", ViewData["GalleryImages"])
+    </div>
+    <div class="col-md-6">
+        @await Html.PartialAsync("_ToDoList", ViewData["ToDos"])
+    </div>
+</div>
+
+
+<div class="row mt-4">
+    @await Html.PartialAsync("_AdminLog")
+</div>
+

@@ -93,15 +93,15 @@ app.MapGet("/", async context =>
     }
     else
     {
-        context.Response.Redirect("/Home/Index"); 
+        context.Response.Redirect("/Admin/Home/Index"); 
     }
     await Task.CompletedTask;
 });
 
 
-app.MapRazorPages(); 
+app.MapRazorPages();
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}"); 
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}"); 
 
 app.Run();

@@ -1,0 +1,36 @@
+﻿@using lokantaWebProject.Entities
+@model TeamMember
+
+@{
+    ViewData["Title"] = "Ekip Üyesi Sil"; // Sayfanın başlığı
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-6 offset-lg-3">
+    <div class="card border-danger">
+        <div class="card-body">
+            <h4 class="card-title text-danger">Silme Onayı</h4> <p class="text-muted">Bu ekip üyesini silmek istediğinizden emin misiniz?</p> <dl class="row">
+                <dt class="col-sm-4">Tam Adı</dt>
+                <dd class="col-sm-8">@Model.FullName</dd>
+
+                <dt class="col-sm-4">Görevi</dt>
+                <dd class="col-sm-8">@Model.Role</dd>
+
+                <dt class="col-sm-4">Fotoğraf</dt>
+                <dd class="col-sm-8">
+                    <img src="@Model.PhotoUrl" alt="@Model.FullName" width="100" class="rounded-circle" />
+                </dd>
+            </dl>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" /> <button type="submit" class="btn btn-danger">
+                    <i class="fa fa-trash"></i> Silmeyi Onayla
+                </button>
+
+                <a href="@Url.Action("Index", "TeamMember")" class="btn btn-secondary">
+                    İptal
+                </a>
+            </form>
+        </div>
+    </div>
+</div>

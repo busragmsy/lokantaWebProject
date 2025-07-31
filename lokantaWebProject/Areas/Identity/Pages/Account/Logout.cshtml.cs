@@ -11,13 +11,14 @@ using Microsoft.Extensions.Logging;
 
 namespace lokantaWebProject.Areas.Identity.Pages.Account
 {
+    [Area("Admin")]
     [AllowAnonymous]
     public class LogoutModel : PageModel
     {
-        private readonly SignInManager<Admin> _signInManager;
+        private readonly SignInManager<Entities.Admin> _signInManager;
         private readonly ILogger<LogoutModel> _logger;
 
-        public LogoutModel(SignInManager<Admin> signInManager, ILogger<LogoutModel> logger)
+        public LogoutModel(SignInManager<Entities.Admin> signInManager, ILogger<LogoutModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;

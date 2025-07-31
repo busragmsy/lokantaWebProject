@@ -12,12 +12,12 @@ namespace lokantaWebProject.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<Admin> _userManager;
-        private readonly SignInManager<Admin> _signInManager;
+        private readonly UserManager<Entities.Admin> _userManager;
+        private readonly SignInManager<Entities.Admin> _signInManager;
 
         public IndexModel(
-            UserManager<Admin> userManager,
-            SignInManager<Admin> signInManager)
+            UserManager<Entities.Admin> userManager,
+            SignInManager<Entities.Admin> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -38,7 +38,7 @@ namespace lokantaWebProject.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(Admin user)
+        private async Task LoadAsync(Entities.Admin user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);

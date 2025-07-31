@@ -1,0 +1,63 @@
+﻿@using lokantaWebProject.Entities
+@model IEnumerable<TeamMember>
+
+@{
+    ViewData["Title"] = "Ekip Üyeleri"; 
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var count = 1; 
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Ekip Üyeleri</h4> <p class="card-description">Restoranınızın ekip üyelerini buradan yönetebilirsiniz.</p> <form method="get" asp-action="Index" asp-controller="TeamMember">
+                
+            </form>
+
+            <a class="btn btn-inverse-success rounded-pill fw-bold mb-3" href="@Url.Action("Create", "TeamMember")">
+                <i class="fa fa-plus"></i> Yeni Ekip Üyesi Ekle
+            </a>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>No</th>
+                            <th>Fotoğraf</th>
+                            <th>Tam Adı</th>
+                            <th>Görevi</th>
+                            <th>Biyografi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var member in Model)
+                        {
+                            <tr>
+                                <td>@count</td>
+                                <td>
+                                    <img src="@member.PhotoUrl" alt="@member.FullName" width="75" height="75" class="rounded-circle" />
+                                </td>
+                                <td>@member.FullName</td>
+                                <td>@member.Role</td>
+                                <td>@member.Bio</td>
+                                <td>
+                                    <a class="btn btn-sm btn-inverse-primary rounded-pill fw-bold" style="margin-right: 20px;" href="@Url.Action("Edit", "TeamMember", new { id = member.Id })">
+                                        <i class="fa fa-pencil-alt"></i> Düzenle
+                                    </a>
+                                    <a class="btn btn-sm btn-inverse-info rounded-pill fw-bold" style="margin-right: 20px;" href="@Url.Action("Details", "TeamMember", new { id = member.Id })">
+                                        <i class="fa fa-eye"></i> Detaylar
+                                    </a>
+                                    <a class="btn btn-sm btn-inverse-danger rounded-pill fw-bold" href="@Url.Action("Delete", "TeamMember", new { id = member.Id })" onclick="return confirm('Bu ekip üyesini silmek istediğinizden emin misiniz?');">
+                                        <i class="fa fa-trash"></i> Sil
+                                    </a>
+                                </td>
+                            </tr>
+                            count++; 
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

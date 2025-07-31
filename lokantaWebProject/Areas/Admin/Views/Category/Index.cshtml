@@ -1,0 +1,54 @@
+﻿@using lokantaWebProject.Entities
+@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Kategoriler";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var count = 1;
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Kategoriler</h4>
+            <p class="card-description">Restoranınızın kategorilerini buradan yönetebilirsiniz.</p>
+
+            <a class="btn btn-inverse-success rounded-pill fw-bold mb-3" asp-action="Create">
+                <i class="fa fa-plus"></i> Yeni Kategori Ekle
+            </a>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>No</th>
+                            <th>Adı</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@count</td>
+                                <td>@item.Name</td>
+                                <td>
+                                    <a class="btn btn-sm btn-inverse-primary rounded-pill fw-bold" style="margin-right: 10px;" asp-action="Edit" asp-route-id="@item.Id">
+                                        <i class="fa fa-pencil-alt"></i> Düzenle
+                                    </a>
+                                    <a class="btn btn-sm btn-inverse-info rounded-pill fw-bold" style="margin-right: 10px;" asp-action="Details" asp-route-id="@item.Id">
+                                        <i class="fa fa-eye"></i> Detaylar
+                                    </a>
+                                    <a class="btn btn-sm btn-inverse-danger rounded-pill fw-bold" asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Bu kategoriyi silmek istediğinizden emin misiniz?');">
+                                        <i class="fa fa-trash"></i> Sil
+                                    </a>
+                                </td>
+                            </tr>
+                            count++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+﻿@using lokantaWebProject.Entities
+@model Category
+
+@{
+    ViewData["Title"] = "Kategoriyi Sil";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-6 offset-lg-3">
+    <div class="card border-danger">
+        <div class="card-body">
+            <h4 class="card-title text-danger">Silmeyi Onayla</h4>
+            <p class="text-muted">Bu kategoriyi silmek istediğinizden emin misiniz?</p>
+            @if (ViewData.ModelState.ContainsKey(string.Empty))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                </div>
+            }
+
+            <dl class="row">
+                <dt class="col-sm-4">Adı</dt>
+                <dd class="col-sm-8">@Model.Name</dd>
+            </dl>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <button type="submit" class="btn btn-danger">
+                    <i class="fa fa-trash"></i> Silmeyi Onayla
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    İptal
+                </a>
+            </form>
+        </div>
+    </div>
+</div>

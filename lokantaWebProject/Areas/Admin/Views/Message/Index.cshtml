@@ -1,0 +1,71 @@
+﻿@using lokantaWebProject.Entities
+@model IEnumerable<Message>
+
+@{
+    ViewData["Title"] = "Gelen Mesajlar"; // Sayfanın başlığı
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var count = 1; // Tablo satır numarası için sayaç
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Gelen Mesajlar</h4> <p class="card-description">Web siteniz üzerinden gönderilen mesajları buradan görüntüleyebilirsiniz.</p> <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>No</th>
+                            <th>Durum</th>
+                            <th>Gönderen</th>
+                            <th>E-posta</th>
+                            <th style="width: 250px;">Konu</th>
+                            <th>Tarih</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="@(item.IsRead ? "" : "table-warning fw-bold text-dark")">
+                                <td>@count</td>
+                                <td>
+                                    @if (item.IsRead)
+                                    {
+                                        <span class="badge bg-success">Okundu</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Okunmadı</span>
+                                    }
+                                </td>
+                                <td>@item.SenderName</td>
+                                <td>@item.SenderEmail</td>
+                                <td style="width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    @{
+                                        string subjectText = item.Subject;
+                                        int subjectMaxLength = 80;
+                                        if (subjectText.Length > subjectMaxLength)
+                                        {
+                                            subjectText = subjectText.Substring(0, subjectMaxLength) + "...";
+                                        }
+                                    }
+                                    @subjectText
+                                </td>
+                                <td>@item.SentDate.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td>
+                                    <a class="btn btn-sm btn-inverse-info rounded-pill fw-bold" style="margin-right: 20px;" href="@Url.Action("Details", "Message", new { id = item.Id })">
+                                        <i class="fa fa-eye"></i> Detaylar
+                                    </a>
+                                    <a class="btn btn-sm btn-inverse-danger rounded-pill fw-bold" href="@Url.Action("Delete", "Message", new { id = item.Id })" onclick="return confirm('Bu mesajı silmek istediğinizden emin misiniz?');">
+                                        <i class="fa fa-trash"></i> Sil
+                                    </a>
+                                </td>
+                            </tr>
+                            count++; // Sayaç her satırda artırılır
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

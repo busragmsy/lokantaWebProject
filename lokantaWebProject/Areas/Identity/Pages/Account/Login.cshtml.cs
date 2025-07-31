@@ -20,14 +20,14 @@ namespace lokantaWebProject.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<Admin> _userManager;
-        private readonly SignInManager<Admin> _signInManager;
+        private readonly SignInManager<Entities.Admin> _signInManager;
+        private readonly UserManager<Entities.Admin> _userManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly AdminDbContext _context;
 
-        public LoginModel(SignInManager<Admin> signInManager, 
+        public LoginModel(SignInManager<Entities.Admin> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<Admin> userManager,
+            UserManager<Entities.Admin> userManager,
             AdminDbContext context)
         {
             _userManager = userManager;

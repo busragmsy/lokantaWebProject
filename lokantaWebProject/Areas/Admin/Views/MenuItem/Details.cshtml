@@ -1,0 +1,47 @@
+﻿@using lokantaWebProject.Entities
+@model MenuItem
+@{
+    ViewData["Title"] = "Menü Öğesi Detayları";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-6 offset-lg-3">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Menü Öğesi Detayları</h4>
+
+            <dl class="row">
+                <dt class="col-sm-4">Adı</dt>
+                <dd class="col-sm-8">@Model.Name</dd>
+
+                <dt class="col-sm-4">Açıklama</dt>
+                <dd class="col-sm-8">@Model.Description</dd>
+
+                <dt class="col-sm-4">Fiyat</dt>
+                <dd class="col-sm-8">@Model.Price.ToString("C")</dd>
+
+                <dt class="col-sm-4">Görsel URL</dt>
+                <dd class="col-sm-8">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" alt="@Model.Name" width="150" class="img-thumbnail" />
+                    }
+                    else
+                    {
+                        <span>Görsel Yok</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-4">Kategori</dt>
+                <dd class="col-sm-8">@Model.Category?.Name</dd>
+            </dl>
+
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                <i class="fa fa-pencil-alt"></i> Düzenle
+            </a>
+            <a asp-action="Index" class="btn btn-secondary">
+                Listeye Geri Dön
+            </a>
+        </div>
+    </div>
+</div>
