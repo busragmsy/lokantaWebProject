@@ -85,23 +85,30 @@ app.Use(async (context, next) =>
     await next();
 });
 
-app.MapGet("/", async context =>
-{
-    if (!context.User.Identity.IsAuthenticated)
-    {
-        context.Response.Redirect("/Identity/Account/Login");
-    }
-    else
-    {
-        context.Response.Redirect("/Admin/Home/Index"); 
-    }
-    await Task.CompletedTask;
-});
+//app.MapGet("/", async context =>
+//{
+//    if (!context.User.Identity.IsAuthenticated)
+//    {
+//        context.Response.Redirect("/Identity/Account/Login");
+//    }
+//    else
+//    {
+//        context.Response.Redirect("/Admin/Home/Index"); 
+//    }
+//    await Task.CompletedTask;
+//});
 
 
 app.MapRazorPages();
 app.MapControllerRoute(
     name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}"); 
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+// SONRA genel, varsayılan web sitesi rotasını tanımla
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();

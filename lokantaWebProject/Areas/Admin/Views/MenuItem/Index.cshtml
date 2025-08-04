@@ -39,7 +39,9 @@
                                     <img src="@item.ImageUrl" alt="@item.Name" width="75" height="75" class="rounded" />
                                 </td>
                                 <td>@item.Name</td>
-                                <td>@item.Description</td>
+                                <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="@item.Description">
+                                    @item.Description
+                                </td>
                                 <td>@item.Price.ToString("C")</td>
                                 <td>@item.Category?.Name</td>
                                 <td>
