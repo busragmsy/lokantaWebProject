@@ -1,0 +1,31 @@
+﻿@using lokantaWebProject.Entities
+@model List<TeamMember>
+
+<section id="chefs" class="chefs section">
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Ekibimiz</h2>
+        <p>Deneyimli şeflerimizle tanışın</p>
+    </div>
+
+    <div class="container">
+        <div class="row gy-4">
+
+            @foreach (var member in Model)
+            {
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                    <div class="member">
+                        <div class="member-img-container">
+                            <img src="@Url.Content(member.PhotoUrl)" class="img-fluid" alt="@member.FullName">
+                        </div>
+
+                        <div class="member-info-content-bottom">
+                            <h3>@member.FullName</h3>
+                            <h4>@member.Role</h4>
+                            <p>@member.Bio</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

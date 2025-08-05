@@ -9,7 +9,7 @@ namespace lokantaWebProject.Entities
         [Required(ErrorMessage = "Başlık boş bırakılamaz.")] // Zorunlu alan
         [StringLength(200, ErrorMessage = "Başlık en fazla 200 karakter olabilir.")] // Maksimum karakter uzunluğu
         [Display(Name = "Başlık")] // Görünümde kullanılacak etiket
-        public string Title { get; set; } // Örn: "Vizyonumuz"
+        public string Title { get; set; } // Örn: "Vizyonumuz" "Misyonumuz"
 
         [Required(ErrorMessage = "Açıklama boş bırakılamaz.")] // Zorunlu alan
         [StringLength(1000, ErrorMessage = "Açıklama en fazla 1000 karakter olabilir.")] // Maksimum karakter uzunluğu

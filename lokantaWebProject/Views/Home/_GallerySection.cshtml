@@ -1,0 +1,29 @@
+﻿@using lokantaWebProject.Entities
+@model List<GalleryImage>
+
+<section id="gallery" class="gallery section">
+
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Galeri</h2>
+        <p>Restoranımızdan Fotoğraflar</p>
+    </div><div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row g-0">
+
+            @foreach (var image in Model)
+            {
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <div class="gallery-img-container">
+                            <a href="@Url.Content(image.ImageUrl)" class="glightbox" data-gallery="images-gallery">
+                                <img src="@Url.Content(image.ImageUrl)" alt="@image.Caption" class="img-fluid">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+
+</section>

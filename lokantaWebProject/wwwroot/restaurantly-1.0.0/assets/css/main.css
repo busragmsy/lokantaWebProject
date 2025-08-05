@@ -1027,10 +1027,10 @@ section,
 # About Section
 --------------------------------------------------------------*/
 .about {
-  background: url("../img/about-bg.jpg") center center;
-  background-size: cover;
-  position: relative;
-  padding: 80px 0;
+    background: url("assets/img/arkaPlan1.png") center center;
+    background-size: cover;
+    position: relative;
+    padding: 80px 0;
 }
 
 .about:before {
@@ -1177,9 +1177,11 @@ section,
 
 .menu .menu-img {
   width: 80px;
+  height: 80px;
   border-radius: 50%;
   float: left;
   border: 8px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  object-fit: cover;
 }
 
 .menu .menu-content {
@@ -1460,87 +1462,159 @@ section,
 --------------------------------------------------------------*/
 .testimonials .testimonials-carousel,
 .testimonials .testimonials-slider {
-  overflow: hidden;
+    overflow: hidden;
 }
 
 .testimonials .testimonial-item {
-  box-sizing: content-box;
-  min-height: 320px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* EÞÝT YÜKSEKLÝK için */
 }
 
-.testimonials .testimonial-item .testimonial-img {
-  width: 90px;
-  border-radius: 50%;
-  margin: -40px 0 0 40px;
-  position: relative;
-  z-index: 2;
-  border: 6px solid var(--background-color);
-}
+    .testimonials .testimonial-item .testimonial-img {
+        width: 90px;
+        border-radius: 50%;
+        margin: -40px 0 0 40px;
+        position: relative;
+        z-index: 2;
+        border: 6px solid var(--background-color);
+    }
 
-.testimonials .testimonial-item h3 {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 10px 0 5px 45px;
-}
+    .testimonials .testimonial-item h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 10px 0 5px 45px;
+    }
 
-.testimonials .testimonial-item h4 {
-  font-size: 14px;
-  color: color-mix(in srgb, var(--default-color), transparent 20%);
-  margin: 0 0 0 45px;
-}
+    .testimonials .testimonial-item h4 {
+        font-size: 14px;
+        color: color-mix(in srgb, var(--default-color), transparent 20%);
+        margin: 0 0 0 45px;
+    }
 
-.testimonials .testimonial-item .quote-icon-left,
-.testimonials .testimonial-item .quote-icon-right {
-  color: color-mix(in srgb, var(--accent-color), transparent 50%);
-  font-size: 26px;
-  line-height: 0;
-}
+    .testimonials .testimonial-item .quote-icon-left,
+    .testimonials .testimonial-item .quote-icon-right {
+        color: color-mix(in srgb, var(--accent-color), transparent 50%);
+        font-size: 26px;
+        line-height: 0;
+    }
 
-.testimonials .testimonial-item .quote-icon-left {
-  display: inline-block;
-  left: -5px;
-  position: relative;
-}
+    .testimonials .testimonial-item .quote-icon-left {
+        display: inline-block;
+        left: -5px;
+        position: relative;
+    }
 
-.testimonials .testimonial-item .quote-icon-right {
-  display: inline-block;
-  right: -5px;
-  position: relative;
-  top: 10px;
-  transform: scale(-1, -1);
-}
+    .testimonials .testimonial-item .quote-icon-right {
+        display: inline-block;
+        right: -5px;
+        position: relative;
+        top: 10px;
+        transform: scale(-1, -1);
+    }
 
-.testimonials .testimonial-item p {
-  font-style: italic;
-  margin: 0 15px 0 15px;
-  padding: 20px 20px 60px 20px;
-  background: color-mix(in srgb, var(--default-color), transparent 97%);
-  position: relative;
-  border-radius: 6px;
-  position: relative;
-  z-index: 1;
-}
+    .testimonials .testimonial-item p {
+        font-style: italic;
+        margin: 0 15px 0 15px;
+        padding: 20px 20px 60px 20px;
+        background: color-mix(in srgb, var(--default-color), transparent 97%);
+        position: relative;
+        border-radius: 6px;
+        z-index: 1;
+        flex-grow: 1; /* KART YÜKSEKLÝÐÝNÝ DOLDUR */
+    }
 
+/* Swiper yükseklik hizalama */
 .testimonials .swiper-wrapper {
-  height: auto;
+    height: auto;
+    align-items: stretch; /* TÜM SLIDE'LAR AYNI YÜKSEKLÝKTE */
+}
+
+.testimonials .swiper-slide {
+    display: flex; /* Ýçerik kartýný esnetebilmek için */
+    height: auto;
 }
 
 .testimonials .swiper-pagination {
-  margin-top: 20px;
-  position: relative;
+    margin-top: 20px;
+    position: relative;
 }
 
-.testimonials .swiper-pagination .swiper-pagination-bullet {
-  width: 12px;
-  height: 12px;
-  background-color: var(--background-color);
-  opacity: 1;
-  border: 1px solid var(--accent-color);
+    .testimonials .swiper-pagination .swiper-pagination-bullet {
+        width: 12px;
+        height: 12px;
+        background-color: var(--background-color);
+        opacity: 1;
+        border: 1px solid var(--accent-color);
+    }
+
+    .testimonials .swiper-pagination .swiper-pagination-bullet-active {
+        background-color: var(--accent-color);
+    }
+
+/* ÝSÝM-YILDIZ-TARÝH BLOÐU ORTALA */
+.testimonials .testimonial-content {
+    text-align: center;
+    padding: 10px 15px 15px;
 }
 
-.testimonials .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: var(--accent-color);
+    .testimonials .testimonial-content .stars {
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        margin: 6px 0 10px;
+    }
+
+/* Alt içerik artýk ortalý deðil; kendi düzenini kuruyor */
+.testimonials .testimonial-content {
+    padding: 10px 15px 15px;
+    text-align: initial; /* merkezlemeyi kaldýr */
 }
+
+/* Yýldýzlar solda, isim saðda; tarih ismin altýnda */
+.testimonials .testimonial-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+    /* Soldaki yýldýz bloðu */
+    .testimonials .testimonial-meta .stars {
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        margin: 0; /* önceki marginleri sýfýrla */
+        text-align: left; /* sola hizala */
+    }
+
+    /* Saðdaki isim + tarih bloðu */
+    .testimonials .testimonial-meta .author {
+        text-align: right;
+        min-width: 40%;
+    }
+
+        /* Önceki h3/h4 margin-left:45px kurallarýný bu bölgede ez */
+        .testimonials .testimonial-meta .author h3,
+        .testimonials .testimonial-meta .author h4 {
+            margin: 0;
+        }
+
+        /* Ýsim: saða yatýk (italik) ve belirgin */
+        .testimonials .testimonial-meta .author h3 {
+            font-size: 18px;
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        /* Tarih: ismin hemen altýnda, daha soluk */
+        .testimonials .testimonial-meta .author .date {
+            margin-top: 4px;
+            font-size: 0.9rem;
+            color: color-mix(in srgb, var(--default-color), transparent 20%);
+        }
+
 
 /*--------------------------------------------------------------
 # Gallery Section
@@ -1559,92 +1633,78 @@ section,
   transform: scale(1.1);
 }
 
-/*--------------------------------------------------------------
-# Chefs Section
---------------------------------------------------------------*/
+/* Galeri resimlerinin sabit boyutlu olmasý için */
+.gallery-img-container {
+    width: 100%; /* Kapsayýcýnýn geniþliði, üst elementine göre ayarlanýr */
+    height: 300px; /* Sabit yükseklik deðeri, istediðiniz gibi deðiþtirebilirsiniz */
+    overflow: hidden;
+    position: relative;
+}
+
+    .gallery-img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Resmi, container'a sýðacak þekilde ölçeklendirir ve keser */
+        object-position: center; /* Resmi ortalar */
+    }
+
+/* ======================
+   Chefs Section Styles
+=========================*/
 .chefs {
-  --default-color: #ffffff;
-  --contrast-color: #ffffff;
+    --default-color: #ffffff;
+    --contrast-color: #ffffff;
 }
 
-.chefs .member {
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+    .chefs .member {
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+/* Görsel Alaný */
+.member-img-container {
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+    position: relative;
 }
 
-.chefs .member .member-info {
-  opacity: 0;
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-  transition: 0.2s;
+    .member-img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+/* Bilgi Alaný */
+.member-info-content-bottom {
+    padding: 15px;
+    text-align: center;
 }
 
-.chefs .member .member-info-content {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 10px;
-  transition: bottom 0.4s;
-}
+    .member-info-content-bottom h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 10px 0 5px 0;
+    }
 
-.chefs .member .member-info-content h4 {
-  color: var(--contrast-color);
-  font-weight: 700;
-  margin-bottom: 2px;
-  font-size: 18px;
-}
+    .member-info-content-bottom h4 {
+        font-size: 14px;
+        color: color-mix(in srgb, var(--default-color), transparent 20%);
+        margin: 0 0 10px 0;
+    }
 
-.chefs .member .member-info-content span {
-  font-style: italic;
-  display: block;
-  font-size: 13px;
-}
+    .member-info-content-bottom p {
+        font-style: italic;
+        margin: 0 auto;
+        padding: 20px 20px 20px 20px;
+        background: color-mix(in srgb, var(--default-color), transparent 97%);
+        border-radius: 6px;
+        display: inline-block;
+        max-width: 90%;
+    }
 
-.chefs .member .social {
-  position: absolute;
-  left: 0;
-  bottom: -38px;
-  right: 0;
-  height: 48px;
-  transition: bottom ease-in-out 0.4s;
-  text-align: center;
-}
-
-.chefs .member .social a {
-  transition: color 0.3s;
-  color: color-mix(in srgb, var(--default-color), transparent 20%);
-  margin: 0 10px;
-  display: inline-block;
-}
-
-.chefs .member .social a:hover {
-  color: var(--accent-color);
-}
-
-.chefs .member .social i {
-  font-size: 18px;
-  margin: 0 2px;
-}
-
-.chefs .member:hover .member-info {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.8) 20%, rgba(255, 255, 255, 0) 100%);
-  opacity: 1;
-  transition: 0.4s;
-}
-
-.chefs .member:hover .member-info-content {
-  bottom: 60px;
-  transition: bottom 0.4s;
-}
-
-.chefs .member:hover .social {
-  bottom: 0;
-  transition: bottom ease-in-out 0.4s;
-}
 
 /*--------------------------------------------------------------
 # Contact Section

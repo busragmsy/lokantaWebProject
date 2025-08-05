@@ -26,7 +26,7 @@
                             <th>Fotoğraf</th>
                             <th>Tam Adı</th>
                             <th>Görevi</th>
-                            <th>Biyografi</th>
+                            <th style="width: 25%;">Biyografi</th>
                             <th>İşlemler</th>
                         </tr>
                     </thead>
@@ -40,7 +40,7 @@
                                 </td>
                                 <td>@member.FullName</td>
                                 <td>@member.Role</td>
-                                <td>@member.Bio</td>
+                                <td style="width: 25%; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@member.Bio</td>
                                 <td>
                                     <a class="btn btn-sm btn-inverse-primary rounded-pill fw-bold" style="margin-right: 20px;" href="@Url.Action("Edit", "TeamMember", new { id = member.Id })">
                                         <i class="fa fa-pencil-alt"></i> Düzenle

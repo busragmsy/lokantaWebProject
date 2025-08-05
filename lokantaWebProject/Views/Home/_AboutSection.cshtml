@@ -1,0 +1,29 @@
+﻿@model lokantaWebProject.Models.AboutViewModel
+
+@{
+    var backgroundImageUrl = Url.Content("~/restaurantly-1.0.0/assets/img/arkaPlan1.png");
+}
+
+<section id="about" class="about section" style="background-image: url('@backgroundImageUrl');">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4">
+            <div class="col-lg-6 order-1 order-lg-2">
+                <img src="@Url.Content("~/restaurantly-1.0.0/assets/img/masa1.png")" class="img-fluid about-img" alt="">
+            </div>
+            <div class="col-lg-6 order-2 order-lg-1 content">
+                @if (Model?.Vision != null)
+                {
+                    <h3>@Model.Vision.Title</h3>
+                    <p class="fst-italic">@Model.Vision.Description</p>
+                }
+                <ul>
+                    @if (Model?.Mission != null)
+                    {
+                        <h3>@Model.Mission.Title</h3>
+                        <p class="fst-italic">@Model.Mission.Description</p>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

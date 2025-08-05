@@ -1,0 +1,42 @@
+﻿@model List<lokantaWebProject.Entities.Category>
+
+<section id="menu" class="menu section">
+
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Menümüzü keşfedin</h2>
+        <p>Lezzet Dolu Menümüz</p>
+    </div><div class="container isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <ul class="menu-filters isotope-filters">
+                    <li data-filter="*" class="filter-active">All</li>
+                    
+                    @foreach (var category in Model)
+                    {
+                        // Kategori ismini CSS sınıfı olarak kullanmak için küçük harf ve boşluksuz hale getiriyoruz.
+                        // Örneğin: "Tantuni" -> "tantuni", "İçecek" -> "icecek"
+                        var filterClass = $"filter-{category.Name.ToLower().Replace("ı","i").Replace(" ","")}";
+                        <li data-filter=".@filterClass">@category.Name</li>
+                    }
+                </ul>
+            </div>
+        </div><div class="row isotope-container" data-aos="fade-up" data-aos-delay="200">
+            
+            @foreach (var category in Model)
+            {
+                var filterClass = $"filter-{category.Name.ToLower().Replace("ı","i").Replace(" ","")}";
+                @foreach (var item in category.MenuItems)
+                {
+                    <div class="col-lg-6 menu-item isotope-item @filterClass">
+                        <img src="@Url.Content(item.ImageUrl)" class="menu-img" alt="@item.Name">
+                        <div class="menu-content">
+                            <a href="#">@item.Name</a><span>@item.Price.ToString("C")</span>
+                        </div>
+                        <div class="menu-ingredients">
+                            @item.Description
+                        </div>
+                    </div>}
+            }
+        </div></div>
+</section>
