@@ -2,28 +2,27 @@ using lokantaWebProject.Context;
 using lokantaWebProject.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options; // IPostConfigureOptions için
-using System;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc; // AutoValidateAntiforgeryTokenAttribute
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Veritabanı Yapılandırması
+// DB
 builder.Services.AddDbContext<AdminDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ASP.NET Core Identity Yapılandırması 
+// Identity
 builder.Services.AddIdentity<Admin, IdentityRole<int>>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
+
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequireUppercase = true;
     options.Password.RequiredLength = 10;
     options.Password.RequiredUniqueChars = 1;
+
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.AllowedForNewUsers = true;
@@ -31,84 +30,77 @@ builder.Services.AddIdentity<Admin, IdentityRole<int>>(options =>
 .AddEntityFrameworkStores<AdminDbContext>()
 .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<RoleManager<IdentityRole<int>>>();
-builder.Services.AddScoped<UserManager<Admin>>();
-builder.Services.AddScoped<SignInManager<Admin>>();
-
-// Çerez Kimlik Doğrulama Ayarları
+// Cookie (Identity uygulama çerezi)
 builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, options =>
 {
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(5); // Oturum 30 dakika sonra sona erer
-    options.LoginPath = "/Identity/Account/Login"; // Giriş sayfanızın yolu
-    options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // Erişim engellendiğinde yönlendirilecek yol
-    options.SlidingExpiration = false; // Admin paneli için false daha güvenlidir. Kullanıcı aktif olsa bile oturum süresi dolunca tekrar giriş yapması gerekir, bu oturum çalınması riskini azaltır.
+    // Not: Yukarıdaki açıklama 30 dk diyor ama 5 dk ayarlanmıştı; netleştirdim.
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+
+    // Identity UI kullanıyorsan doğru path budur:
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+
+    options.SlidingExpiration = false;                    // Admin için daha sıkı
+    options.Cookie.Name = ".MesutUsta.Auth";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.SameSite = SameSiteMode.Strict;
 });
 
-
-builder.Services.AddControllersWithViews();
+// MVC + Global CSRF koruması
+builder.Services.AddControllersWithViews(o =>
+{
+    o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+});
 builder.Services.AddRazorPages();
 
-// Yetkilendirme Politikalarını Tanımlayın
+// Yetkilendirme politikaları
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin", "SuperAdmin"));
-    options.AddPolicy("SuperAdminOnly", policy => policy.RequireRole("SuperAdmin"));
+    options.AddPolicy("AdminOnly", p => p.RequireRole("Admin", "SuperAdmin"));
+    options.AddPolicy("SuperAdminOnly", p => p.RequireRole("SuperAdmin"));
 });
-
 
 var app = builder.Build();
 
-// HTTP İstek İşlem Hattını yapılandırma
+// Pipeline
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error"); // Üretim ortamında detaylı hataları gizler
-    app.UseHsts(); // HTTPS kullanıyorsanız HSTS önemlidir, tarayıcılara sadece HTTPS kullanmalarını söyler
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
 
-app.UseHttpsRedirection(); // HTTP isteklerini HTTPS'ye yönlendirir
-app.UseStaticFiles(); // Statik dosyaları (CSS, JS, resimler) sunar
+app.UseHttpsRedirection();
+app.UseStaticFiles();
 
-app.UseRouting(); // Yönlendirme middleware'ini etkinleştirir
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-// *** HTTP Güvenlik Başlıkları Ekleyin (Çok Önemli!) ***
-// Bu başlıklar, tarayıcı tabanlı saldırılara (XSS, Clickjacking) karşı ek bir savunma katmanı sağlar.
+// Güvenlik başlıkları (temel)
 app.Use(async (context, next) =>
 {
-    context.Response.Headers.Add("X-Content-Type-Options", "nosniff"); // MIME türü koklamasını engelle
-    context.Response.Headers.Add("X-Frame-Options", "DENY"); // Sayfanın iframe içinde gösterilmesini engelle (Clickjacking koruması)
-    context.Response.Headers.Add("Referrer-Policy", "no-referrer-when-downgrade"); // Referrer bilgisini kısıtlar
-    // Content-Security-Policy (CSP) daha karmaşıktır ve uygulamanızın ihtiyaçlarına göre dikkatlice ayarlanmalıdır.
-    // Şimdilik eklemiyoruz ancak ileride düşünmelisiniz. Örneğin:
-    // context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none';");
+    var headers = context.Response.Headers;
+    headers.TryAdd("X-Content-Type-Options", "nosniff");
+    headers.TryAdd("X-Frame-Options", "DENY");
+    headers.TryAdd("Referrer-Policy", "no-referrer-when-downgrade");
     await next();
 });
 
-//app.MapGet("/", async context =>
-//{
-//    if (!context.User.Identity.IsAuthenticated)
-//    {
-//        context.Response.Redirect("/Identity/Account/Login");
-//    }
-//    else
-//    {
-//        context.Response.Redirect("/Admin/Home/Index"); 
-//    }
-//    await Task.CompletedTask;
-//});
-
-
+// Identity UI (Login/AccessDenied Razor Pages)
 app.MapRazorPages();
+
+// --- KRİTİK: Admin Area'yı komple kilitle ---
 app.MapControllerRoute(
     name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+).RequireAuthorization("AdminOnly");
 
-// SONRA genel, varsayılan web sitesi rotasını tanımla
+// Public (web) tarafı
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapRazorPages();
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
 app.Run();

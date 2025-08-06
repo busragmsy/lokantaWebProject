@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations; // Doğrulama öznitelikleri için
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace lokantaWebProject.Entities
 {

@@ -104,7 +104,7 @@ namespace lokantaWebProject.Areas.Identity.Pages.Account
                     });
                     await _context.SaveChangesAsync();
 
-                    return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));
+                    return RedirectToAction("Index", "Home", new { area = "Admin" });
                 }
 
                 if (result.IsLockedOut)

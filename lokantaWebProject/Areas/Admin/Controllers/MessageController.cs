@@ -1,11 +1,13 @@
 ﻿using lokantaWebProject.Context;
 using lokantaWebProject.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; // ToListAsync, FindAsync, FirstOrDefaultAsync için
 
 namespace lokantaWebProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "AdminOnly")]
     public class MessageController : Controller
     {
         private readonly AdminDbContext _context; // Veritabanı bağlamı

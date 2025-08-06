@@ -1,0 +1,92 @@
+﻿@model lokantaWebProject.Models.HomePageViewModel
+
+<section id="contact" class="contact section">
+
+    <div class="container section-title" data-aos="fade-up">
+        <h2>İletişim</h2>
+        <p>Bize Ulaşın</p>
+    </div><div class="mb-5" data-aos="fade-up" data-aos-delay="200">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3009.1961687407884!2d28.81039127598501!3d41.0428390172961!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14caa5aa75e326a1%3A0xf626d2fbd8793fff!2zTUXFnkhVUiBUQU5UVU7EsEPEsCBNRVNVVCBVU1RB!5e0!3m2!1str!2str!4v1754460501191!5m2!1str!2str" width="1600" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div><div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4">
+
+            <div class="col-lg-4">
+                @if (Model.ContactInfoData != null)
+                {
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+                        <i class="bi bi-geo-alt flex-shrink-0"></i>
+                        <div>
+                            <h3>Adres</h3>
+                            <p>@Model.ContactInfoData.Address</p>
+                        </div>
+                    </div>
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+                        <i class="bi bi-telephone flex-shrink-0"></i>
+                        <div>
+                            <h3>Bizi Arayın</h3>
+                            <p>@Model.ContactInfoData.Phone</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="500">
+                        <i class="bi bi-envelope flex-shrink-0"></i>
+                        <div>
+                            <h3>E-posta</h3>
+                            <p>@Model.ContactInfoData.Email</p>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-lg-8">
+                <form asp-action="SendMessage" asp-controller="Home" method="POST" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row gy-4">
+                        <div class="col-md-12 text-center">
+                            <div class="loading">Loading</div>
+                            <div class="error-message"></div>
+                            <div class="sent-message">Mesajınız başarıyla gönderildi. Teşekkürler!</div>
+
+                           
+                        </div>
+
+                        <div class="col-md-6">
+                            <input type="text" asp-for="Message.SenderName" class="form-control" placeholder="Adınız" required="">
+                            <span asp-validation-for="Message.SenderName" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6 ">
+                            <input type="email" asp-for="Message.SenderEmail" class="form-control" placeholder="E-posta Adresiniz" required="">
+                            <span asp-validation-for="Message.SenderEmail" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <input type="text" asp-for="Message.Subject" class="form-control" placeholder="Konu" required="">
+                            <span asp-validation-for="Message.Subject" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <textarea asp-for="Message.MessageContent" class="form-control" rows="6" placeholder="Mesajınız" required=""></textarea>
+                            <span asp-validation-for="Message.MessageContent" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                            @if (TempData["SuccessMessage"] != null)
+                            {
+                                <div class="sent-message d-block">@TempData["SuccessMessage"]</div>
+                            }
+                            @if (TempData["ErrorMessage"] != null)
+                            {
+                                <div class="error-message d-block">@TempData["ErrorMessage"]</div>
+                            }
+                            <button type="submit">Mesaj Gönder</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</section>

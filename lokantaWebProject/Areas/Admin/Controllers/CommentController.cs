@@ -1,11 +1,13 @@
 ﻿using lokantaWebProject.Context;
 using lokantaWebProject.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace lokantaWebProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "AdminOnly")]
     public class CommentController : Controller
     {
         private readonly AdminDbContext _context; 

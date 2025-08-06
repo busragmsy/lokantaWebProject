@@ -1,0 +1,77 @@
+﻿@model lokantaWebProject.Entities.ContactInfo
+
+<footer id="footer" class="footer" style="background-color: black; color: white;">
+    <div class="container footer-top pb-4 border-bottom border-secondary">
+        <div class="row gy-4">
+            <!-- Sol Kısım: Logo + Tanıtım + Sosyal Medya -->
+            <div class="col-lg-4 col-md-6">
+                <a asp-controller="Home" asp-action="Index" class="d-flex align-items-center mb-3 text-decoration-none">
+                    <img src="~/restaurantly-1.0.0/assets/img/logo.png" alt="Logo" style="max-height:50px;" class="me-2" />
+                    <span class="h5 mb-0 text-light">Meşhur Tantunici Mesut Usta</span>
+                </a>
+                <p>20 yılı aşkın süredir, taptaze malzemelerle hazırladığımız tantunilerimizle hizmetinizdeyiz.</p>
+                <div class="social-links d-flex gap-2 mt-3">
+                    @if (!string.IsNullOrWhiteSpace(Model.FacebookUrl))
+                    {
+                        <a href="@Model.FacebookUrl" target="_blank" class="text-light"><i class="bi bi-facebook fs-4"></i></a>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.InstagramUrl))
+                    {
+                        <a href="@Model.InstagramUrl" target="_blank" class="text-light"><i class="bi bi-instagram fs-4"></i></a>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.TwitterUrl))
+                    {
+                        <a href="@Model.TwitterUrl" target="_blank" class="text-light"><i class="bi bi-twitter-x fs-4"></i></a>
+                    }
+                </div>
+            </div>
+
+            <!-- Orta Kısım: Hızlı Menü -->
+            <div class="col-lg-2 col-md-3">
+                <h5 class="mb-3">Hızlı Menü</h5>
+                <ul>
+                    <li><a asp-controller="Home" asp-action="Index" asp-fragment="about">Hakkımızda</a></li>
+                    <li><a asp-controller="Home" asp-action="Index" asp-fragment="menu">Menü</a></li>
+                    <li><a asp-controller="Home" asp-action="Index" asp-fragment="chefs">Ekibimiz</a></li>
+                    <li><a asp-controller="Home" asp-action="Index" asp-fragment="gallery">Galeri</a></li>
+                    <li><a asp-controller="Home" asp-action="Index" asp-fragment="testimonials">Yorumlar</a></li>
+                    <li><a asp-controller="Home" asp-action="Index" asp-fragment="contact">İletişim</a></li>
+                </ul>
+
+            </div>
+
+            <!-- Sağ Kısım: İletişim Bilgileri -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="mb-3">İletişim</h5>
+                @if (!string.IsNullOrWhiteSpace(Model.Address))
+                {
+                    <p class="mb-1"><i class="bi bi-geo-alt me-2"></i>@Model.Address</p>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.Phone))
+                {
+                    <p class="mb-1"><i class="bi bi-telephone me-2"></i><a href="tel:@Model.Phone" class="text-light">@Model.Phone</a></p>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.Email))
+                {
+                    <p class="mb-1"><i class="bi bi-envelope me-2"></i><a href="mailto:@Model.Email" class="text-light">@Model.Email</a></p>
+                }
+                <p class="mb-0"><a href="https://maps.google.com/?q=@Model.Address" target="_blank" class="text-decoration-none text-warning">📍 Haritada Gör</a></p>
+            </div>
+
+            <!-- Ek: Çalışma Saatleri -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="mb-3">Çalışma Saatleri</h5>
+                <ul class="list-unstyled">
+                    <li>Pazartesi – Cuma: 07:00 – 22:00</li>
+                    <li>Cumartesi: 10:00 – 22:00</li>
+                    <li>Pazar: 10:00 – 22:00</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alt Kısım -->
+    <div class="container text-center mt-3 pb-3">
+        <small>© @DateTime.Now.Year Meşhur Tantunici Mesut Usta – Tüm Hakları Saklıdır.</small>
+    </div>
+</footer>
